@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyTitle>UserInspectorFix</AssemblyTitle>
+    <RootNamespace>UserInspectorFix</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>UserInspectorFix</PackageId>
+    <Title>UserInspectorFix</Title>
+    <Authors>Nytra</Authors>
+    <Version>1.0.0</Version>
+    <Description>Fixes the User Inspector not working when you are not the host.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Nytra/ResoniteUserInspectorFix</PackageProjectUrl>
+    <PackageTags>mod; mods; monkeyloader; resonite</PackageTags>
+    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage)</TargetsForTfmSpecificContentInPackage>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <EnablePackageValidation>true</EnablePackageValidation>
+
+    <!-- Optional: Detect breaking changes from a previous stable version
+    <PackageValidationBaselineVersion>0.1.0-beta</PackageValidationBaselineVersion> -->
+  </PropertyGroup>
+
+  <Target Name="CopyPackage" AfterTargets="Pack">
+    <Copy Condition="'$(CopyToLibraries)'=='true'" SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg" DestinationFiles="$(ResonitePath)\MonkeyLoader\Mods\$(PackageId).nupkg" />
+    <Message Condition="'$(CopyToLibraries)'=='true'" Text="Copied '$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg' to '$(ResonitePath)\MonkeyLoader\Mods\$(PackageId).nupkg'" Importance="high" />
+  </Target>
+  
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="" />
+    <None Include="Locale\*" Pack="true" PackagePath="content/Locale/" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MonkeyLoader" Version="0.24.0-beta" />
+    <PackageReference Include="MonkeyLoader.GamePacks.Unity" Version="0.7.0-beta" />
+    <PackageReference Include="MonkeyLoader.GamePacks.Resonite" Version="0.21.2-beta" GeneratePathProperty="true" />
+    <PackageReference Include="PolySharp" Version="1.15.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Resonite.Elements.Core" Version="1.4.3" />
+    <PackageReference Include="Resonite.FrooxEngine" Version="2025.1.17.6" />
+    <PackageReference Include="System.Text.Json" Version="9.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>
